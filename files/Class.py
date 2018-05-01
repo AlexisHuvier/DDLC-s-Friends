@@ -72,3 +72,114 @@ class Sayori(Personnage):
         self.rect = self.image.get_rect()
         self.rect.x = 100
         self.rect.y = 100
+    
+class Item(pygame.sprite.Sprite):
+    def __init__(self):
+        super(Item, self).__init__()
+        self.type = ""
+        self.image = pygame.image.load("files/images/natsuki.png")
+        self.rect = self.image.get_rect()
+        self.rect.x = 0
+        self.rect.y = 0
+        self.nombre = 0
+        self.offsetTX = 0
+        self.offsetTY = 32
+
+    def add(self, nombre):
+        self.nombre+=nombre
+    
+    def remove(self, nombre):
+        self.temp = self.nombre - nombre
+        if self.temp>=0:
+            self.nombre = self.temp
+
+class Cookie(Item):
+    def __init__(self):
+        super(Cookie, self).__init__()
+        self.type="Cookie"
+        self.image = pygame.image.load("files/images/cookie.png")
+        self.rect = self.image.get_rect()
+        self.rect.x = 20
+        self.rect.y = 370
+        self.offsetTX = 10
+    
+    def consomme(self, girl, nombre):
+        girl.faim += 10
+        girl.vie += 5
+        girl.soif -= 2
+        self.remove(nombre)
+
+class The(Item):
+    def __init__(self):
+        super(The, self).__init__()
+        self.type="Thé"
+        self.image = pygame.image.load("files/images/the.png")
+        self.rect = self.image.get_rect()
+        self.rect.x = 90
+        self.rect.y = 370
+        self.offsetTX = 6
+    
+    def consomme(self, girl, nombre):
+        girl.faim -= 2
+        girl.vie += 5
+        girl.soif += 10
+        self.remove(nombre)
+
+class JusPomme(Item):
+    def __init__(self):
+        super(JusPomme, self).__init__()
+        self.type="Jus de pomme"
+        self.image = pygame.image.load("files/images/juspomme.png")
+        self.rect = self.image.get_rect()
+        self.rect.x = 220
+        self.rect.y = 370
+    
+    def consomme(self, girl, nombre):
+        girl.vie += 7
+        girl.soif += 20
+        self.remove(nombre)
+
+class Cupcake(Item):
+    def __init__(self):
+        super(Cupcake, self).__init__()
+        self.type="Cupcake"
+        self.image = pygame.image.load("files/images/cupcake.png")
+        self.rect = self.image.get_rect()
+        self.rect.x = 150
+        self.rect.y = 370
+        self.offsetTX = 8
+    
+    def consomme(self, girl, nombre):
+        girl.faim += 20
+        girl.vie += 7
+        self.remove(nombre)
+
+class Gateau(Item):
+    def __init__(self):
+        super(Gateau, self).__init__()
+        self.type="Gâteau"
+        self.image = pygame.image.load("files/images/gateau.png")
+        self.rect = self.image.get_rect()
+        self.rect.x = 270
+        self.rect.y = 370
+        self.offsetTX = 10
+    
+    def consomme(self, girl, nombre):
+        girl.faim += 32
+        girl.vie += 10
+        self.remove(nombre)
+
+class Soda(Item):
+    def __init__(self):
+        super(Soda, self).__init__()
+        self.type="Soda"
+        self.image = pygame.image.load("files/images/soda.png")
+        self.rect = self.image.get_rect()
+        self.rect.x = 330
+        self.rect.y = 370
+        self.offsetTX = 2
+    
+    def consomme(self, girl, nombre):
+        girl.vie += 10
+        girl.soif += 32
+        self.remove(nombre)
