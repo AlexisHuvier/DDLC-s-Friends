@@ -1,4 +1,5 @@
 import pygame, random
+from PIL import Image
 try:
     from files.Class import Monika, Yuri, Natsuki, Sayori
 except ImportError:
@@ -31,6 +32,7 @@ class Game():
                 if event.type == pygame.QUIT:
                     self.played = False
             self.screen.fill((0, 0, 0))
+            self.girlGroup.draw(self.screen)
             for i in self.girlGroup:
                 i.move()
                 if self.timeDirection == 0:
@@ -38,7 +40,18 @@ class Game():
                     self.timeDirection = 20
                 else:
                     self.timeDirection -= 1
-            self.girlGroup.draw(self.screen)
+                content = pygame.image.load("files/images/barre_contenu.png")
+                self.screen.blit(pygame.transform.scale(content, (i.vie, 6)), (25, 21))
+                self.screen.blit(pygame.transform.scale(content, (i.fun, 6)), (25, 51))
+                self.screen.blit(pygame.transform.scale(content, (i.faim, 6)), (411+(65-i.faim), 21))
+                self.screen.blit(pygame.transform.scale(content, (i.soif, 6)), (411+(65-i.faim), 51))
+            frame = pygame.image.load("files/images/frame.png")
+            self.screen.blit(pygame.transform.scale(frame, (500, 70)), (0,430))
+            self.screen.blit(pygame.transform.scale(frame, (500, 70)), (0,360))
+            self.screen.blit(pygame.image.load("files/images/barre_vie.png"), (10, 10))
+            self.screen.blit(pygame.image.load("files/images/barre_fun.png"), (10, 40))
+            self.screen.blit(pygame.image.load("files/images/barre_faim.png"), (406, 10))
+            self.screen.blit(pygame.image.load("files/images/barre_soif.png"), (406, 40))
             self.clock.tick(60)
             pygame.display.update()
         pygame.quit()
