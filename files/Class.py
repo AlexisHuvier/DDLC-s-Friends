@@ -4,7 +4,7 @@ class Personnage(pygame.sprite.Sprite):
     def __init__(self):
         super(Personnage, self).__init__()
         self.name = "Personnage"
-        self.image = pygame.image.load("files/images/logoDDLC.png")
+        self.image = pygame.image.load("files/images/natsuki.png")
         self.rect = self.image.get_rect()
         self.rect.x = 100
         self.rect.y = 100
@@ -13,6 +13,10 @@ class Personnage(pygame.sprite.Sprite):
         self.yMin = 50
         self.yMax = 200
         self.direction = 1
+        self.vie = 65
+        self.faim = 65
+        self.soif = 65
+        self.fun = 65
     
     def move(self):
         nb = random.randint(0,5)

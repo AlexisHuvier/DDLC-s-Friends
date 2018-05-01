@@ -20,7 +20,7 @@ class Game():
         self.girlGroup.add(self.girl)
         self.timeDirection = 20
         self.played = True
-        self.screen = pygame.display.set_mode((400, 500))
+        self.screen = pygame.display.set_mode((500, 500))
 
         self.clock = pygame.time.Clock()
         pygame.display.set_caption("DDLC's Friends - "+self.girl.name)
@@ -28,8 +28,6 @@ class Game():
     def launch(self):
         while self.played:
             for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    self.played = False
                 if event.type == pygame.QUIT:
                     self.played = False
             self.screen.fill((0, 0, 0))
