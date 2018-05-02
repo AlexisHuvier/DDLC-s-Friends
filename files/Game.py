@@ -21,6 +21,7 @@ class Game():
         else:
             raise Exception
         self.girlGroup = pygame.sprite.Group()
+        self.fen = "Game"
         self.girlGroup.add(self.girl)
         self.timeDirection = 20
         self.inventory = [Cookie(), The(), Cupcake(), JusPomme(), Gateau(), Soda(), Shop()]
@@ -46,21 +47,39 @@ class Game():
                 if event.type == pygame.QUIT:
                     self.played = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.mouseEvent(event.button, event.pos)
+                    if self.fen == "Game":
+                        self.mouseEventGame(event.button, event.pos)
+                    elif self.fen == "Shop":
+                        self.mouseEventShop(event.button, event.pos)
             self.screen.fill((0, 0, 0))
-            for i in self.girlGroup:
-                i.move()
-                if self.timeDirection == 0:
-                    i.direction = random.randint(1,8)
-                    self.timeDirection = 20
-                else:
-                    self.timeDirection -= 1
-            self.showImage()
+            if self.fen == "Game":
+                for i in self.girlGroup:
+                    i.move()
+                    if self.timeDirection == 0:
+                        i.direction = random.randint(1,8)
+                        self.timeDirection = 20
+                    else:
+                        self.timeDirection -= 1
+                self.showImageGame()
+            elif self.fen == "Shop":
+                self.showImageShop()
             self.clock.tick(60)
             pygame.display.update()
         pygame.quit()
 
-    def mouseEvent(self, button, pos):
+    def mouseEventShop(self, button, pos):
+        if button==1:
+            self.fen = "Game"
+        
+    def showImageShop(self):
+        backgroundImage=pygame.image.load("files/images/frame.png")
+        self.screen.blit(pygame.transform.scale(backgroundImage, (500, 500)), (0, 0))
+        text=self.font.render("Shop",1,(0, 0, 0))
+        text_rect = text.get_rect(center=(500/2, 20))
+        self.screen.blit(text, text_rect)
+
+
+    def mouseEventGame(self, button, pos):
         if button==1:
             posX = pos[0]
             posY = pos[1]
@@ -73,9 +92,9 @@ class Game():
                                 showerror("ERREUR", "Vous n'avez pas de "+i.type+".")
                                 temp.destroy()
                         else:
-                            print("SHOP")
+                            self.fen = "Shop"
 
-    def showImage(self):
+    def showImageGame(self):
         self.girlGroup.draw(self.screen)
         content = pygame.image.load("files/images/barre_contenu.png")
         self.screen.blit(pygame.transform.scale(content, (self.girl.vie, 6)), (25, 21))
