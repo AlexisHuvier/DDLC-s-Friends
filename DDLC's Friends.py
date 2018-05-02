@@ -1,9 +1,10 @@
 from tkinter import Tk, Canvas, Button, FLAT, CENTER
 from PIL import Image, ImageTk
-import os
+import os, sys
 try:
     from files.Game import Game
 except ImportError:
+    sys.path.append("files")
     from Game import Game
 
 def SelectGirl(CHOICE, event= ""):
@@ -83,4 +84,6 @@ def Main():
 
     FENETRE.mainloop()
 
+if os.path.isdir('files/saves') == False:
+    os.mkdir("files/saves")
 Main()

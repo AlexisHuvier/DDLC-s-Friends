@@ -10,14 +10,15 @@ except ImportError:
 class Game():
     def __init__(self, girlChoosed):
         pygame.init()
+        self.inventory = [Cookie(), The(), Cupcake(), JusPomme(), Gateau(), Soda()]
         if girlChoosed == "Monika":
-            self.girl = Monika()
+            self.girl = Monika(self)
         elif girlChoosed == "Yuri":
-            self.girl = Yuri()
+            self.girl = Yuri(self)
         elif girlChoosed == "Sayori":
-            self.girl = Sayori()
+            self.girl = Sayori(self)
         elif girlChoosed == "Natsuki":
-            self.girl = Natsuki()
+            self.girl = Natsuki(self)
         else:
             raise Exception
         self.girlGroup = pygame.sprite.Group()
@@ -25,7 +26,6 @@ class Game():
         self.girlGroup.add(self.girl)
         self.timeDirection = 20
         self.debug = False
-        self.inventory = [Cookie(), The(), Cupcake(), JusPomme(), Gateau(), Soda(), Shop()]
         self.fontName=pygame.font.SysFont("Times New Roman",22,bold=True,italic=False)
         self.fontDesc=pygame.font.SysFont("Times New Roman",15,bold=False,italic=False)
         self.fontDesc2=pygame.font.SysFont("Times New Roman",12,bold=False,italic=False)
@@ -114,19 +114,18 @@ class Game():
         self.screen.blit(argent, (argent_rect.x-8, argent_rect.y))
         self.screen.blit(pygame.image.load("files/images/coin.png"), (argent_rect.x+2+argent_rect.width, argent_rect.y))
         for i in self.inventory:
-            if i.type != "Shop":
-                self.screen.blit(i.imageShop, (i.xShop+i.offsetShopX, i.yShop+i.offsetShopY))
-                nom=self.fontDesc.render(i.type,1,(0, 0,0))
-                self.screen.blit(nom, (i.xShop + 70, i.yShop))
-                description=self.fontDesc2.render(i.description1,1,(0, 0,0))
-                self.screen.blit(description, (i.xShop + 70, i.yShop+20))
-                description2=self.fontDesc2.render(i.description2,1,(0, 0,0))
-                self.screen.blit(description2, (i.xShop + 70, i.yShop+35))
-                price=self.fontDesc.render(str(i.price),1,(0, 0,0))
-                self.screen.blit(price, (i.xShop-8+i.o+i.offsetShopX+i.rectShop.width/4, i.yShop+70))
-                self.screen.blit(pygame.image.load("files/images/coin.png"), (i.xShop+13+i.o+i.offsetShopX+i.rectShop.width/4, i.yShop+70))
-                possede=self.fontDesc.render("Possédé : "+str(i.nombre),1,(0, 0,0))
-                self.screen.blit(possede, (i.xShop + 70, i.yShop+70))
+            self.screen.blit(i.imageShop, (i.xShop+i.offsetShopX, i.yShop+i.offsetShopY))
+            nom=self.fontDesc.render(i.type,1,(0, 0,0))
+            self.screen.blit(nom, (i.xShop + 70, i.yShop))
+            description=self.fontDesc2.render(i.description1,1,(0, 0,0))
+            self.screen.blit(description, (i.xShop + 70, i.yShop+20))
+            description2=self.fontDesc2.render(i.description2,1,(0, 0,0))
+            self.screen.blit(description2, (i.xShop + 70, i.yShop+35))
+            price=self.fontDesc.render(str(i.price),1,(0, 0,0))
+            self.screen.blit(price, (i.xShop-8+i.o+i.offsetShopX+i.rectShop.width/4, i.yShop+70))
+            self.screen.blit(pygame.image.load("files/images/coin.png"), (i.xShop+13+i.o+i.offsetShopX+i.rectShop.width/4, i.yShop+70))
+            possede=self.fontDesc.render("Possédé : "+str(i.nombre),1,(0, 0,0))
+            self.screen.blit(possede, (i.xShop + 70, i.yShop+70))
 
 
 

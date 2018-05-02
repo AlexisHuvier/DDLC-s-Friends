@@ -1,9 +1,70 @@
 import pygame, random
+from tkinter.messagebox import askquestion
+
+class Save():
+    def __init__(self, girl):
+        self.girl = girl
+        self.load()
+    
+    def load(self):
+        try:
+            with open("files/saves/"+self.girl.name+".txt", "r") as fichier:
+                pass
+            if askquestion("Saves", "Une sauvegarde a été trouvé.\nVoulez-vous la charger ?") == "yes":
+                with open("files/saves/"+self.girl.name+".txt", "r") as fichier:
+                    listSave = fichier.read().split("\n")
+                    self.girl.vie = int(listSave[0].split(" : ")[1])
+                    self.girl.fun = int(listSave[1].split(" : ")[1])
+                    self.girl.faim = int(listSave[2].split(" : ")[1])
+                    self.girl.soif = int(listSave[3].split(" : ")[1])
+                    self.girl.coin = int(listSave[4].split(" : ")[1])
+                    for i in self.girl.game.inventory:
+                        if i.type == "Cookie":
+                            i.nombre = int(listSave[5].split(" : ")[1])
+                        elif i.type == "Thé":
+                            i.nombre = int(listSave[6].split(" : ")[1])
+                        elif i.type == "Cupcake":
+                            i.nombre = int(listSave[7].split(" : ")[1])
+                        elif i.type == "Jus de pomme":
+                            i.nombre = int(listSave[8].split(" : ")[1])
+                        elif i.type == "Gâteau":
+                            i.nombre = int(listSave[9].split(" : ")[1])
+                        elif i.type == "Soda":
+                            i.nombre = int(listSave[10].split(" : ")[1])
+        except:
+            self.create("load")
+    
+    def create(self, loadGo = ""):
+        texte = ""
+        texte += "Vie : "+str(self.girl.vie)+"\n"
+        texte += "Fun : "+str(self.girl.fun)+"\n"
+        texte += "Faim : "+str(self.girl.faim)+"\n"
+        texte += "Soif : "+str(self.girl.soif)+"\n"
+        texte += "Coin : "+str(self.girl.coin)+"\n"
+        for i in self.girl.game.inventory:
+            if i.type == "Cookie":
+                 texte += "Cookie : "+str(i.nombre)+"\n"
+            elif i.type == "Thé":
+                texte += "Thé : "+str(i.nombre)+"\n"
+            elif i.type == "Cupcake":
+                texte += "Cupcake : "+str(i.nombre)+"\n"
+            elif i.type == "Jus de pomme":
+                texte += "Jus de pomme : "+str(i.nombre)+"\n"
+            elif i.type == "Gâteau":
+                texte += "Gâteau : "+str(i.nombre)+"\n"
+            elif i.type == "Soda":
+                texte += "Soda : "+str(i.nombre)
+        with open("files/saves/"+self.girl.name+".txt", "w") as fichier:
+            fichier.write(texte)
+        if loadGo != "":
+            self.load()
+            
 
 class Personnage(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, game):
         super(Personnage, self).__init__()
         self.name = "Personnage"
+        self.game = game
         self.image = pygame.image.load("files/images/natsuki.png")
         self.rect = self.image.get_rect()
         self.rect.x = 100
@@ -75,40 +136,44 @@ class Personnage(pygame.sprite.Sprite):
 
 
 class Natsuki(Personnage):
-    def __init__(self):
-        super(Natsuki, self).__init__()
+    def __init__(self, game):
+        super(Natsuki, self).__init__(game)
         self.name = "Natsuki"
         self.image = pygame.image.load("files/images/natsuki.png")
         self.rect = self.image.get_rect()
         self.rect.x = 100
         self.rect.y = 100
+        self.save = Save(self)
 
 class Monika(Personnage):
-    def __init__(self):
-        super(Monika, self).__init__()
+    def __init__(self, game):
+        super(Monika, self).__init__(game)
         self.name = "Monika"
         self.image = pygame.image.load("files/images/monika.png")
         self.rect = self.image.get_rect()
         self.rect.x = 100
         self.rect.y = 100
+        self.save = Save(self)
 
 class Yuri(Personnage):
-    def __init__(self):
-        super(Yuri, self).__init__()
+    def __init__(self, game):
+        super(Yuri, self).__init__(game)
         self.name = "Yuri"
         self.image = pygame.image.load("files/images/yuri.png")
         self.rect = self.image.get_rect()
         self.rect.x = 100
         self.rect.y = 100
+        self.save = Save(self)
 
 class Sayori(Personnage):
-    def __init__(self):
-        super(Sayori, self).__init__()
+    def __init__(self, game):
+        super(Sayori, self).__init__(game)
         self.name = "Sayori"
         self.image = pygame.image.load("files/images/sayori.png")
         self.rect = self.image.get_rect()
         self.rect.x = 100
         self.rect.y = 100
+        self.save = Save(self)
     
 class Item(pygame.sprite.Sprite):
     def __init__(self):
