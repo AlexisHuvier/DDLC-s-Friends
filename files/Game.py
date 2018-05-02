@@ -1,5 +1,7 @@
 import pygame, random
+import tkinter
 from PIL import Image
+from tkinter.messagebox import showerror
 try:
     from files.Class import Monika, Yuri, Natsuki, Sayori, Cookie, Soda, JusPomme, The, Cupcake, Gateau, Shop
 except ImportError:
@@ -67,7 +69,9 @@ class Game():
                     if posY >= i.rect.y and posY<= i.rect.y+i.rect.height:
                         if i.type != "Shop":
                             if i.consomme(self.girl):
-                                print("ERREUR")
+                                temp = tkinter.Tk()
+                                showerror("ERREUR", "Vous n'avez pas de "+i.type+".")
+                                temp.destroy()
                         else:
                             print("SHOP")
 
