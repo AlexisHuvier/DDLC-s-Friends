@@ -1,6 +1,5 @@
 from tkinter import Tk, Canvas, Button, FLAT, CENTER
 from PIL import Image, ImageTk
-from tkinter.messagebox import askquestion
 import os
 try:
     from files.Game import Game
