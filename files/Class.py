@@ -110,7 +110,10 @@ class Item(pygame.sprite.Sprite):
         self.rect.y = 0
         self.nombre = 0
         self.offsetTX = 0
-        self.offsetTY = 32
+        self.offsetTY = 40
+        self.offsetShopX = 0
+        self.offsetShopY = 0
+        self.o = 0
 
     def add(self, nombre):
         self.nombre+=nombre
@@ -126,11 +129,20 @@ class Cookie(Item):
     def __init__(self):
         super(Cookie, self).__init__()
         self.type="Cookie"
+        self.strImage = "files/images/cookie.png"
+        self.imageShop = pygame.image.load(self.strImage[:-4]+"x2"+self.strImage[-4:])
+        self.rectShop = self.imageShop.get_rect()
         self.image = pygame.image.load("files/images/cookie.png")
         self.rect = self.image.get_rect()
         self.rect.x = 20
+        self.o = 5
         self.rect.y = 370
-        self.offsetTX = 8
+        self.xShop = 20
+        self.yShop = 100
+        self.offsetTX = 11
+        self.price = 10
+        self.description1 = "Adoré de Sayori, ce sont"
+        self.description2 = "des simples cookies"
     
     def consomme(self, girl):
         if self.remove(1):
@@ -146,11 +158,19 @@ class The(Item):
     def __init__(self):
         super(The, self).__init__()
         self.type="Thé"
+        self.strImage = "files/images/the.png"
+        self.imageShop = pygame.image.load(self.strImage[:-4]+"x2"+self.strImage[-4:])
+        self.rectShop = self.imageShop.get_rect()
         self.image = pygame.image.load("files/images/the.png")
         self.rect = self.image.get_rect()
         self.rect.x = 90
         self.rect.y = 370
-        self.offsetTX = 6
+        self.offsetTX = 9
+        self.xShop = 260
+        self.yShop = 100
+        self.price = 10
+        self.description1 = "Une bonne tasse de thé"
+        self.description2 = "préparée par Yuri"
     
     def consomme(self, girl):
         if self.remove(1):
@@ -165,10 +185,20 @@ class JusPomme(Item):
     def __init__(self):
         super(JusPomme, self).__init__()
         self.type="Jus de pomme"
+        self.strImage = "files/images/juspomme.png"
+        self.imageShop = pygame.image.load(self.strImage[:-4]+"x2"+self.strImage[-4:])
+        self.rectShop = self.imageShop.get_rect()
         self.image = pygame.image.load("files/images/juspomme.png")
         self.rect = self.image.get_rect()
         self.rect.x = 220
         self.rect.y = 370
+        self.xShop = 260
+        self.yShop = 235
+        self.price = 30
+        self.offsetTX = 2
+        self.description1 = "Contre les bosses à la tête"
+        self.description2 = "venant des étagères"
+        self.offsetShopX = 15
     
     def consomme(self, girl):
         if self.remove(1):
@@ -182,11 +212,20 @@ class Cupcake(Item):
     def __init__(self):
         super(Cupcake, self).__init__()
         self.type="Cupcake"
+        self.strImage = "files/images/cupcake.png"
+        self.imageShop = pygame.image.load(self.strImage[:-4]+"x2"+self.strImage[-4:])
+        self.rectShop = self.imageShop.get_rect()
         self.image = pygame.image.load("files/images/cupcake.png")
         self.rect = self.image.get_rect()
         self.rect.x = 150
         self.rect.y = 370
-        self.offsetTX = 8
+        self.o = 5
+        self.xShop = 20
+        self.yShop = 235
+        self.price = 30
+        self.offsetTX = 11
+        self.description1 = "Un cupcake adorable"
+        self.description2 = "décoré par Natsuki"
     
     def consomme(self, girl):
         if self.remove(1):
@@ -200,11 +239,21 @@ class Gateau(Item):
     def __init__(self):
         super(Gateau, self).__init__()
         self.type="Gâteau"
+        self.strImage = "files/images/gateau.png"
+        self.imageShop = pygame.image.load(self.strImage[:-4]+"x2"+self.strImage[-4:])
+        self.rectShop = self.imageShop.get_rect()
         self.image = pygame.image.load("files/images/gateau.png")
         self.rect = self.image.get_rect()
         self.rect.x = 270
         self.rect.y = 370
-        self.offsetTX = 10
+        self.xShop = 20
+        self.yShop = 370
+        self.o = 5
+        self.price = 50
+        self.offsetTX = 13
+        self.offsetShopY = 15
+        self.description1 = "Un gateau au chocolat"
+        self.description2 = "préparé par Natsuki"
     
     def consomme(self, girl):
         if self.remove(1):
@@ -218,11 +267,20 @@ class Soda(Item):
     def __init__(self):
         super(Soda, self).__init__()
         self.type="Soda"
+        self.strImage = "files/images/soda.png"
+        self.imageShop = pygame.image.load(self.strImage[:-4]+"x2"+self.strImage[-4:])
+        self.rectShop = self.imageShop.get_rect()
         self.image = pygame.image.load("files/images/soda.png")
         self.rect = self.image.get_rect()
         self.rect.x = 330
         self.rect.y = 370
-        self.offsetTX = 2
+        self.xShop = 260
+        self.yShop = 370
+        self.price = 50
+        self.offsetTX = 4
+        self.description1 = "Un bon vieux soda"
+        self.description2 = "acheté par Monika"
+        self.offsetShopX = 15
     
     def consomme(self, girl):
         if self.remove(1):
