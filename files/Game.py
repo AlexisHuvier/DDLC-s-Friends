@@ -1,7 +1,7 @@
 import pygame, random
 import tkinter
 from PIL import Image
-from tkinter.messagebox import showerror
+from tkinter.messagebox import showerror, askquestion
 try:
     from files.Class import Monika, Yuri, Natsuki, Sayori, Cookie, Soda, JusPomme, The, Cupcake, Gateau, Shop
 except ImportError:
@@ -24,6 +24,7 @@ class Game():
         self.fen = "Game"
         self.girlGroup.add(self.girl)
         self.timeDirection = 20
+        self.debug = False
         self.inventory = [Cookie(), The(), Cupcake(), JusPomme(), Gateau(), Soda(), Shop()]
         self.fontName=pygame.font.SysFont("Times New Roman",22,bold=True,italic=False)
         self.fontDesc=pygame.font.SysFont("Times New Roman",15,bold=False,italic=False)
@@ -37,17 +38,26 @@ class Game():
     def launch(self):
         while self.played:
             for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_a:
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_a and self.debug:
                     for i in self.inventory:
                         if i.type != "Shop":
                             i.add(1)
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_g:
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_g and self.debug:
                     self.girl.addMoney(10)
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_l:
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_l and self.debug:
                     self.girl.vie = 10
                     self.girl.faim = 10
                     self.girl.fun = 10
                     self.girl.soif = 10
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_d: 
+                    tk = tkinter.Tk()
+                    if self.debug:
+                        if askquestion("Debug", "Voulez-vous quitter le mode debug ?") == "yes":
+                            self.debug = False
+                    else:
+                        if askquestion("Debug", "Voulez-vous passer en mode debug ?") == "yes":
+                            self.debug = True
+                    tk.destroy()
                 if event.type == pygame.QUIT:
                     self.played = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
