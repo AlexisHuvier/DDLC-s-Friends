@@ -36,6 +36,33 @@ class Personnage(pygame.sprite.Sprite):
             self.rect.y -= nb
             if self.rect.y < self.yMin:
                 self.rect.y = self.yMin
+    
+    def modif(self, value, nombre):
+        if value == "vie":
+            self.vie += nombre
+            if self.vie >= 65:
+                self.vie = 65
+            elif  self.vie < 0:
+                self.vie = 0
+        elif value == "faim":
+            self.faim += nombre
+            if self.faim >= 65:
+                self.faim = 65
+            elif  self.faim < 0:
+                self.faim = 0
+        elif value == "fun":
+            self.fun += nombre
+            if self.fun >= 65:
+                self.fun = 65
+            elif  self.fun < 0:
+                self.fun = 0
+        elif value == "soif":
+            self.soif += nombre
+            if self.soif >= 65:
+                self.soif = 65
+            elif  self.soif < 0:
+                self.soif = 0
+
 
 class Natsuki(Personnage):
     def __init__(self):
@@ -92,6 +119,8 @@ class Item(pygame.sprite.Sprite):
         self.temp = self.nombre - nombre
         if self.temp>=0:
             self.nombre = self.temp
+            return True
+        return False
 
 class Cookie(Item):
     def __init__(self):
@@ -101,13 +130,17 @@ class Cookie(Item):
         self.rect = self.image.get_rect()
         self.rect.x = 20
         self.rect.y = 370
-        self.offsetTX = 10
+        self.offsetTX = 8
     
-    def consomme(self, girl, nombre):
-        girl.faim += 10
-        girl.vie += 5
-        girl.soif -= 2
-        self.remove(nombre)
+    def consomme(self, girl):
+        if self.remove(1):
+            girl.modif("faim", 10)
+            girl.modif("vie" , 5)
+            girl.modif("soif", -2)
+            return False
+        else:
+            return True
+
 
 class The(Item):
     def __init__(self):
@@ -119,11 +152,14 @@ class The(Item):
         self.rect.y = 370
         self.offsetTX = 6
     
-    def consomme(self, girl, nombre):
-        girl.faim -= 2
-        girl.vie += 5
-        girl.soif += 10
-        self.remove(nombre)
+    def consomme(self, girl):
+        if self.remove(1):
+            girl.modif("faim", -2)
+            girl.modif("vie" , 5)
+            girl.modif("soif", 10)
+            return False
+        else:
+            return True
 
 class JusPomme(Item):
     def __init__(self):
@@ -134,10 +170,13 @@ class JusPomme(Item):
         self.rect.x = 220
         self.rect.y = 370
     
-    def consomme(self, girl, nombre):
-        girl.vie += 7
-        girl.soif += 20
-        self.remove(nombre)
+    def consomme(self, girl):
+        if self.remove(1):
+            girl.modif("vie", 7)
+            girl.modif("soif", 20)
+            return False
+        else:
+            return True
 
 class Cupcake(Item):
     def __init__(self):
@@ -149,10 +188,13 @@ class Cupcake(Item):
         self.rect.y = 370
         self.offsetTX = 8
     
-    def consomme(self, girl, nombre):
-        girl.faim += 20
-        girl.vie += 7
-        self.remove(nombre)
+    def consomme(self, girl):
+        if self.remove(1):
+            girl.modif("vie", 7)
+            girl.modif("faim", 20)
+            return False
+        else:
+            return True
 
 class Gateau(Item):
     def __init__(self):
@@ -164,10 +206,13 @@ class Gateau(Item):
         self.rect.y = 370
         self.offsetTX = 10
     
-    def consomme(self, girl, nombre):
-        girl.faim += 32
-        girl.vie += 10
-        self.remove(nombre)
+    def consomme(self, girl):
+        if self.remove(1):
+            girl.modif("vie", 10)
+            girl.modif("faim", 32)
+            return False
+        else:
+            return True
 
 class Soda(Item):
     def __init__(self):
@@ -179,9 +224,14 @@ class Soda(Item):
         self.rect.y = 370
         self.offsetTX = 2
     
-    def consomme(self, girl, nombre):
-        girl.vie += 10
-        girl.soif += 32
+    def consomme(self, girl):
+        if self.remove(1):
+            girl.modif("vie", 10)
+            girl.modif("soif", 32)
+            return False
+        else:
+            return True
+
 class Shop(pygame.sprite.Sprite):
     def __init__(self):
         super(Shop, self).__init__()
