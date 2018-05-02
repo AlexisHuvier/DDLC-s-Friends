@@ -12,6 +12,7 @@ class Personnage(pygame.sprite.Sprite):
         self.xMax = 210
         self.yMin = 50
         self.yMax = 200
+        self.coin = 0
         self.direction = 1
         self.vie = 65
         self.faim = 65
@@ -62,6 +63,15 @@ class Personnage(pygame.sprite.Sprite):
                 self.soif = 65
             elif  self.soif < 0:
                 self.soif = 0
+        
+    def pay(self, nombre):
+        if self.coin - nombre < 0:
+            return True
+        self.coin -= nombre
+        return False
+
+    def addMoney(self, nombre):
+        self.coin+=nombre
 
 
 class Natsuki(Personnage):
