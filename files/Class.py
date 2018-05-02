@@ -373,3 +373,21 @@ class Shop(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = 406
         self.rect.y = 370
+    
+class Quitter(pygame.sprite.Sprite):
+    def __init__(self):
+        super(Quitter, self).__init__()
+        self.type = "Quitter"
+        self.image = pygame.image.load("files/images/buttonQ2.png")
+        self.rect = self.image.get_rect()
+        self.rect.x = 470-self.rect.width
+        self.rect.y = 450
+
+class Activites(pygame.sprite.Sprite):
+    def __init__(self):
+        super(Activites, self).__init__()
+        self.type = "Activités"
+        self.image = pygame.image.load("files/images/buttonA.png")
+        self.rect = self.image.get_rect()
+        self.rect.x = 30
+        self.rect.y = 450

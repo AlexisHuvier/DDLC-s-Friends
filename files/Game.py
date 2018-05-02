@@ -3,7 +3,7 @@ import tkinter
 from PIL import Image
 from tkinter.messagebox import showerror, askquestion
 try:
-    from files.Class import Monika, Yuri, Natsuki, Sayori, Cookie, Soda, JusPomme, The, Cupcake, Gateau, Shop
+    from files.Class import Monika, Yuri, Natsuki, Sayori, Cookie, Soda, JusPomme, The, Cupcake, Gateau, Shop, Quitter, Activites
 except ImportError:
     from Class import Monika, Yuri, Natsuki, Sayori
 
@@ -11,6 +11,7 @@ class Game():
     def __init__(self, girlChoosed):
         pygame.init()
         self.inventory = [Cookie(), The(), Cupcake(), JusPomme(), Gateau(), Soda()]
+        self.buttons = [Shop(), Quitter(), Activites()]
         if girlChoosed == "Monika":
             self.girl = Monika(self)
         elif girlChoosed == "Yuri":
@@ -59,6 +60,10 @@ class Game():
                             self.debug = True
                     tk.destroy()
                 if event.type == pygame.QUIT:
+                    tk = tkinter.Tk()
+                    if askquestion("Quitter", "Voulez-vous sauvegarder ?\n\nATTENTION : Si vous sauvegardez, vous perdrez votre ancienne sauvegarde") == "yes":
+                        self.girl.save.create()
+                    tk.destroy()
                     self.played = False
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.fen == "Game":
@@ -136,13 +141,25 @@ class Game():
             for i in self.inventory:
                 if posX >= i.rect.x and posX<= i.rect.x+i.rect.width:
                     if posY >= i.rect.y and posY<= i.rect.y+i.rect.height:
-                        if i.type != "Shop":
-                            if i.consomme(self.girl):
-                                temp = tkinter.Tk()
-                                showerror("ERREUR", "Vous n'avez pas de "+i.type+".")
-                                temp.destroy()
-                        else:
+                        if i.consomme(self.girl):
+                            temp = tkinter.Tk()
+                            showerror("ERREUR", "Vous n'avez pas de "+i.type+".")
+                            temp.destroy()
+            for i in self.buttons:
+                if posX >= i.rect.x and posX<= i.rect.x+i.rect.width:
+                    if posY >= i.rect.y and posY<= i.rect.y+i.rect.height:
+                        if i.type == "Shop":
                             self.fen = "Shop"
+                        elif i.type == "Quitter":
+                            tk = tkinter.Tk()
+                            if askquestion("Quitter", "Voulez-vous sauvegarder ?\n\nATTENTION : Si vous sauvegardez, vous perdrez votre ancienne sauvegarde") == "yes":
+                                self.girl.save.create()
+                            tk.destroy()
+                            self.played = False
+                        elif i.type == "Activités":
+                            tk = tkinter.Tk()
+                            showerror("ERREUR", "Les activités ne sont pas encore présentes !")
+                            tk.destroy()
 
     def showImageGame(self):
         self.girlGroup.draw(self.screen)
@@ -163,7 +180,8 @@ class Game():
         self.screen.blit(pygame.image.load("files/images/barre_soif.png"), (406, 40))
         for i in self.inventory:
             self.screen.blit(i.image, (i.rect.x, i.rect.y))
-            if i.type !="Shop":
-                text=self.fontDesc.render(str(i.nombre),1,(0, 0,0))
-                self.screen.blit(text, (i.rect.x + i.offsetTX, i.rect.y + i.offsetTY))
+            text=self.fontDesc.render(str(i.nombre),1,(0, 0,0))
+            self.screen.blit(text, (i.rect.x + i.offsetTX, i.rect.y + i.offsetTY))
+        for i in self.buttons:
+            self.screen.blit(i.image, (i.rect.x, i.rect.y))
         pygame.draw.rect(self.screen,(255, 189, 225),(380,360,4,70))
