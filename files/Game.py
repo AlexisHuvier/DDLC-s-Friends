@@ -41,6 +41,8 @@ class Game():
                     for i in self.inventory:
                         if i.type != "Shop":
                             i.add(1)
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_g:
+                    self.girl.addMoney(10)
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_l:
                     self.girl.vie = 10
                     self.girl.faim = 10
@@ -71,7 +73,25 @@ class Game():
 
     def mouseEventShop(self, button, pos):
         if button==1:
-            self.fen = "Game"
+            posX = pos[0]
+            posY = pos[1]
+            find = ""
+            objet = None
+            for i in self.inventory:
+                if i.type != "Shop":
+                    if posX >= i.xShop and posX<= i.xShop+i.rectShop.width:
+                        if posY >= i.yShop and posY<= i.yShop+i.rectShop.height:
+                            find = i.type
+                            objet = i
+            if find != "":
+                if self.girl.pay(objet.price):
+                    temp = tkinter.Tk()
+                    showerror("ERREUR", "Vous n'avez pas assez de monnaie ("+str(objet.price)+").")
+                    temp.destroy()
+                else:
+                    objet.add(1)
+            else:
+                self.fen = "Game"
         
     def showImageShop(self):
         backgroundImage=pygame.image.load("files/images/frame.png")
@@ -79,6 +99,10 @@ class Game():
         text=self.fontName.render("Shop",1,(0, 0, 0))
         text_rect = text.get_rect(center=(500/2, 20))
         self.screen.blit(text, text_rect)
+        argent=self.fontDesc.render(str(self.girl.coin),1,(0, 0,0))
+        argent_rect = argent.get_rect(center=(500/2, 50))
+        self.screen.blit(argent, (argent_rect.x-8, argent_rect.y))
+        self.screen.blit(pygame.image.load("files/images/coin.png"), (argent_rect.x+2+argent_rect.width, argent_rect.y))
         for i in self.inventory:
             if i.type != "Shop":
                 self.screen.blit(i.imageShop, (i.xShop+i.offsetShopX, i.yShop+i.offsetShopY))
@@ -89,7 +113,8 @@ class Game():
                 description2=self.fontDesc2.render(i.description2,1,(0, 0,0))
                 self.screen.blit(description2, (i.xShop + 70, i.yShop+35))
                 price=self.fontDesc.render(str(i.price),1,(0, 0,0))
-                self.screen.blit(price, (i.xShop+i.o+i.offsetShopX+i.rectShop.width/4, i.yShop+70))
+                self.screen.blit(price, (i.xShop-8+i.o+i.offsetShopX+i.rectShop.width/4, i.yShop+70))
+                self.screen.blit(pygame.image.load("files/images/coin.png"), (i.xShop+13+i.o+i.offsetShopX+i.rectShop.width/4, i.yShop+70))
                 possede=self.fontDesc.render("Possédé : "+str(i.nombre),1,(0, 0,0))
                 self.screen.blit(possede, (i.xShop + 70, i.yShop+70))
 
