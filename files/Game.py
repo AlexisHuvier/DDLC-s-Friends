@@ -1,7 +1,7 @@
 import pygame, random
 from PIL import Image
 try:
-    from files.Class import Monika, Yuri, Natsuki, Sayori, Cookie, Soda, JusPomme, The, Cupcake, Gateau
+    from files.Class import Monika, Yuri, Natsuki, Sayori, Cookie, Soda, JusPomme, The, Cupcake, Gateau, Shop
 except ImportError:
     from Class import Monika, Yuri, Natsuki, Sayori
 
@@ -21,7 +21,7 @@ class Game():
         self.girlGroup = pygame.sprite.Group()
         self.girlGroup.add(girl)
         self.timeDirection = 20
-        self.inventory = [Cookie(), The(), Cupcake(), JusPomme(), Gateau(), Soda()]
+        self.inventory = [Cookie(), The(), Cupcake(), JusPomme(), Gateau(), Soda(), Shop()]
         self.font=pygame.font.SysFont("Times New Roman",22,bold=True,italic=False)
         self.played = True
         self.screen = pygame.display.set_mode((500, 500))

@@ -182,4 +182,11 @@ class Soda(Item):
     def consomme(self, girl, nombre):
         girl.vie += 10
         girl.soif += 32
-        self.remove(nombre)
+class Shop(pygame.sprite.Sprite):
+    def __init__(self):
+        super(Shop, self).__init__()
+        self.type = "Shop"
+        self.image = pygame.image.load("files/images/shop.png")
+        self.rect = self.image.get_rect()
+        self.rect.x = 406
+        self.rect.y = 370
