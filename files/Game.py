@@ -46,6 +46,8 @@ class Game():
                             i.add(1)
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_g and self.debug:
                     self.girl.addMoney(10)
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_k and self.debug:
+                    self.girl.vie = 0
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_l and self.debug:
                     self.girl.vie = 10
                     self.girl.faim = 10
