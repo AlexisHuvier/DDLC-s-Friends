@@ -1,7 +1,7 @@
 import pygame, random
 import tkinter
 from PIL import Image
-from tkinter.messagebox import showerror, askquestion
+from tkinter.messagebox import showerror, askquestion, showinfo
 try:
     from files.Class import TimeThread ,Monika, Yuri, Natsuki, Sayori, Cookie, Soda, JusPomme, The, Cupcake, Gateau, Shop, Quitter, Activites
 except ImportError:
@@ -76,11 +76,22 @@ class Game():
             if self.fen == "Game":
                 for i in self.girlGroup:
                     i.move()
-                    if self.timeDirection == 0:
-                        i.direction = random.randint(1,8)
-                        self.timeDirection = 20
+                    if i.update() and i == self.girl:
+                        self.screen.fill((0,0,0))
+                        self.showImageGame()
+                        self.clock.tick(60)
+                        pygame.display.update()
+                        tk = tkinter.Tk()
+                        showinfo("Mort", i.name+" vient de mourir !")
+                        tk.destroy()
+                        self.played = False
+                        break
                     else:
-                        self.timeDirection -= 1
+                        if self.timeDirection == 0:
+                            i.direction = random.randint(1,8)
+                            self.timeDirection = 20
+                        else:
+                            self.timeDirection -= 1
                 self.showImageGame()
             elif self.fen == "Shop":
                 self.showImageShop()

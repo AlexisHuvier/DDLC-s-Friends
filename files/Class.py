@@ -1,5 +1,5 @@
 import pygame, random, threading, time, datetime
-from tkinter.messagebox import askquestion
+from tkinter.messagebox import askquestion, showinfo
 
 class Save():
     def __init__(self, girl):
@@ -98,25 +98,33 @@ class Personnage(pygame.sprite.Sprite):
         self.faim = 65
         self.soif = 65
         self.fun = 65
+        self.die = False
+    
+    def update(self):
+        if self.vie == 0 and self.die == False:
+            self.image = pygame.transform.rotate(self.image, 90)
+            self.die = True
+        return self.die
     
     def move(self):
-        nb = random.randint(0,5)
-        if self.direction == 1:
-            self.rect.x += nb
-            if self.rect.x > self.xMax:
-                self.rect.x = self.xMax
-        elif self.direction == 2:
-            self.rect.x -= nb
-            if self.rect.x < self.xMin:
-                self.rect.x = self.xMin
-        elif self.direction == 3:
-            self.rect.y += nb
-            if self.rect.y > self.yMax:
-                self.rect.y = self.yMax
-        elif self.direction == 4:
-            self.rect.y -= nb
-            if self.rect.y < self.yMin:
-                self.rect.y = self.yMin
+        if self.vie > 0:
+            nb = random.randint(0,5)
+            if self.direction == 1:
+                self.rect.x += nb
+                if self.rect.x > self.xMax:
+                    self.rect.x = self.xMax
+            elif self.direction == 2:
+                self.rect.x -= nb
+                if self.rect.x < self.xMin:
+                    self.rect.x = self.xMin
+            elif self.direction == 3:
+                self.rect.y += nb
+                if self.rect.y > self.yMax:
+                    self.rect.y = self.yMax
+            elif self.direction == 4:
+                self.rect.y -= nb
+                if self.rect.y < self.yMin:
+                    self.rect.y = self.yMin
     
     def modif(self, value, nombre):
         if value == "vie":
