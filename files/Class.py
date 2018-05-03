@@ -1,4 +1,4 @@
-import pygame, random
+import pygame, random, threading, time, datetime
 from tkinter.messagebox import askquestion
 
 class Save():
@@ -75,6 +75,7 @@ class Personnage(pygame.sprite.Sprite):
         self.yMax = 200
         self.coin = 0
         self.direction = 1
+        self.time = 0
         self.vie = 65
         self.faim = 65
         self.soif = 65
@@ -391,3 +392,21 @@ class Activites(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = 30
         self.rect.y = 450
+
+class TimeThread(threading.Thread):
+    def __init__(self, girl):
+        threading.Thread.__init__(self)
+        self.girl = girl
+    
+    def run(self):
+        while self.go:
+            time.sleep(1)
+            self.girl.time += 1
+            if self.girl.time == 5:
+                self.girl.modif("faim", -2)
+                self.girl.modif("soif", -3)
+                self.girl.modif("fun", -3)
+                self.girl.time = 0
+    
+    def stopThread(self):
+        self.go = False

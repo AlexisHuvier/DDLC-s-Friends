@@ -3,7 +3,7 @@ import tkinter
 from PIL import Image
 from tkinter.messagebox import showerror, askquestion
 try:
-    from files.Class import Monika, Yuri, Natsuki, Sayori, Cookie, Soda, JusPomme, The, Cupcake, Gateau, Shop, Quitter, Activites
+    from files.Class import TimeThread ,Monika, Yuri, Natsuki, Sayori, Cookie, Soda, JusPomme, The, Cupcake, Gateau, Shop, Quitter, Activites
 except ImportError:
     from Class import Monika, Yuri, Natsuki, Sayori
 
@@ -22,6 +22,7 @@ class Game():
             self.girl = Natsuki(self)
         else:
             raise Exception
+        self.timeThread = TimeThread(self.girl)
         self.girlGroup = pygame.sprite.Group()
         self.fen = "Game"
         self.girlGroup.add(self.girl)
@@ -61,6 +62,7 @@ class Game():
                     tk.destroy()
                 if event.type == pygame.QUIT:
                     tk = tkinter.Tk()
+                    self.timeThread.stopThread()
                     if askquestion("Quitter", "Voulez-vous sauvegarder ?\n\nATTENTION : Si vous sauvegardez, vous perdrez votre ancienne sauvegarde") == "yes":
                         self.girl.save.create()
                     tk.destroy()
@@ -152,6 +154,7 @@ class Game():
                             self.fen = "Shop"
                         elif i.type == "Quitter":
                             tk = tkinter.Tk()
+                            self.timeThread.stopThread()
                             if askquestion("Quitter", "Voulez-vous sauvegarder ?\n\nATTENTION : Si vous sauvegardez, vous perdrez votre ancienne sauvegarde") == "yes":
                                 self.girl.save.create()
                             tk.destroy()
