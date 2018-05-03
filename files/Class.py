@@ -10,6 +10,9 @@ class Save():
         try:
             with open("files/saves/"+self.girl.name+".txt", "r") as fichier:
                 pass
+        except:
+            self.create("load")
+        else:
             if askquestion("Saves", "Une sauvegarde a été trouvé.\nVoulez-vous la charger ?") == "yes":
                 with open("files/saves/"+self.girl.name+".txt", "r") as fichier:
                     listSave = fichier.read().split("\n")
@@ -18,21 +21,34 @@ class Save():
                     self.girl.faim = int(listSave[2].split(" : ")[1])
                     self.girl.soif = int(listSave[3].split(" : ")[1])
                     self.girl.coin = int(listSave[4].split(" : ")[1])
+                    annee, mois, jour, heure = listSave[5].split(" : ")[1].split("-")
+                    now = datetime.datetime.now()
+                    past = datetime.datetime(int(annee), int(mois), int(jour), int(heure))
+                    difference = now - past
+                    if difference.days >= 15:
+                        self.girl.vie = 0
+                        self.girl.faim = 0
+                        self.girl.soif = 0
+                        self.girl.fun = 0
+                    else:
+                        print((difference.days*24+(int(heure)-now.hour))//5)
+                        for i in range((difference.days*24+(int(heure)-now.hour))//5):
+                            self.girl.modif("faim", -2)
+                            self.girl.modif("soif", -3)
+                            self.girl.modif("fun", -3)
                     for i in self.girl.game.inventory:
                         if i.type == "Cookie":
-                            i.nombre = int(listSave[5].split(" : ")[1])
-                        elif i.type == "Thé":
                             i.nombre = int(listSave[6].split(" : ")[1])
-                        elif i.type == "Cupcake":
+                        elif i.type == "Thé":
                             i.nombre = int(listSave[7].split(" : ")[1])
-                        elif i.type == "Jus de pomme":
+                        elif i.type == "Cupcake":
                             i.nombre = int(listSave[8].split(" : ")[1])
-                        elif i.type == "Gâteau":
+                        elif i.type == "Jus de pomme":
                             i.nombre = int(listSave[9].split(" : ")[1])
-                        elif i.type == "Soda":
+                        elif i.type == "Gâteau":
                             i.nombre = int(listSave[10].split(" : ")[1])
-        except:
-            self.create("load")
+                        elif i.type == "Soda":
+                            i.nombre = int(listSave[11].split(" : ")[1])
     
     def create(self, loadGo = ""):
         texte = ""
@@ -41,6 +57,8 @@ class Save():
         texte += "Faim : "+str(self.girl.faim)+"\n"
         texte += "Soif : "+str(self.girl.soif)+"\n"
         texte += "Coin : "+str(self.girl.coin)+"\n"
+        now = datetime.datetime.now()
+        texte += "Time : "+str(now.year)+"-"+str(now.month)+"-"+str(now.day)+"-"+str(now.hour)+"\n"
         for i in self.girl.game.inventory:
             if i.type == "Cookie":
                  texte += "Cookie : "+str(i.nombre)+"\n"
