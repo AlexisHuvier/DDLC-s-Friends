@@ -31,7 +31,6 @@ class Save():
                         self.girl.soif = 0
                         self.girl.fun = 0
                     else:
-                        print((difference.days*24+(int(heure)-now.hour))//5)
                         for i in range((difference.days*24+(int(heure)-now.hour))//5):
                             self.girl.modif("faim", -2)
                             self.girl.modif("soif", -3)
