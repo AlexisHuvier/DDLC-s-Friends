@@ -96,6 +96,7 @@ class Personnage(pygame.sprite.Sprite):
         self.vie = 65
         self.faim = 65
         self.soif = 65
+        self.timeHappy = 0
         self.fun = 65
         self.die = False
     
@@ -172,6 +173,20 @@ class Natsuki(Personnage):
         self.rect.x = 100
         self.rect.y = 100
         self.save = Save(self)
+    
+    def update(self):
+        if self.timeHappy > 1:
+            self.timeHappy -= 1
+        elif self.timeHappy == 1:
+            self.image = pygame.image.load("files/images/natsuki.png")
+            self.timeHappy = 0
+        return super(Natsuki, self).update()
+    
+    def modif(self, value, nombre):
+        super(Natsuki, self).modif(value, nombre)
+        if nombre > 0:
+            self.image = pygame.image.load("files/images/natsuki_happy.png")
+            self.timeHappy = 20
 
 class Monika(Personnage):
     def __init__(self, game):
@@ -182,6 +197,20 @@ class Monika(Personnage):
         self.rect.x = 100
         self.rect.y = 100
         self.save = Save(self)
+    
+    def update(self):
+        if self.timeHappy > 1:
+            self.timeHappy -= 1
+        elif self.timeHappy == 1:
+            self.image = pygame.image.load("files/images/monika.png")
+            self.timeHappy = 0
+        return super(Monika, self).update()
+    
+    def modif(self, value, nombre):
+        super(Monika, self).modif(value, nombre)
+        if nombre > 0:
+            self.image = pygame.image.load("files/images/monika_happy.png")
+            self.timeHappy = 20
 
 class Yuri(Personnage):
     def __init__(self, game):
@@ -192,6 +221,20 @@ class Yuri(Personnage):
         self.rect.x = 100
         self.rect.y = 100
         self.save = Save(self)
+    
+    def update(self):
+        if self.timeHappy > 1:
+            self.timeHappy -= 1
+        elif self.timeHappy == 1:
+            self.image = pygame.image.load("files/images/yuri.png")
+            self.timeHappy = 0
+        return super(Yuri, self).update()
+    
+    def modif(self, value, nombre):
+        super(Yuri, self).modif(value, nombre)
+        if nombre > 0:
+            self.image = pygame.image.load("files/images/yuri_happy.png")
+            self.timeHappy = 20
 
 class Sayori(Personnage):
     def __init__(self, game):
@@ -202,6 +245,20 @@ class Sayori(Personnage):
         self.rect.x = 100
         self.rect.y = 100
         self.save = Save(self)
+    
+    def update(self):
+        if self.timeHappy > 1:
+            self.timeHappy -= 1
+        elif self.timeHappy == 1:
+            self.image = pygame.image.load("files/images/sayori.png")
+            self.timeHappy = 0
+        return super(Sayori, self).update()
+    
+    def modif(self, value, nombre):
+        super(Sayori, self).modif(value, nombre)
+        if nombre > 0:
+            self.image = pygame.image.load("files/images/sayori_happy.png")
+            self.timeHappy = 20
     
 class Item(pygame.sprite.Sprite):
     def __init__(self):
