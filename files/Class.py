@@ -103,6 +103,8 @@ class Personnage(pygame.sprite.Sprite):
         if self.vie == 0 and self.die == False:
             self.image = pygame.transform.rotate(self.image, 90)
             self.die = True
+        if self.faim == 0 or self.fun == 0 or self.soif == 0:
+            self.modif("vie", -1)
         return self.die
     
     def move(self):
