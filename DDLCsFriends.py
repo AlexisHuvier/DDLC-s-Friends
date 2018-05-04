@@ -1,4 +1,4 @@
-from tkinter import Tk, Canvas, Button, FLAT, CENTER
+from tkinter import Tk, Canvas, Button, FLAT, CENTER, Radiobutton, StringVar
 from PIL import Image, ImageTk
 import os, sys
 try:
@@ -52,6 +52,47 @@ def SelectFen(FENETRE):
 
     CHOICE.mainloop()
 
+def Parametres(FENETRE):
+    FENETRE.destroy()
+
+    Param = Tk()
+    Param.title("DDLC's Friends")
+    Param.geometry("550x400")
+
+    canvasWidth=600
+    canvasHeight=400
+    canvas=Canvas(Param,width=canvasWidth,height=canvasHeight)
+    backgroundImage=ImageTk.PhotoImage(Image.open("files/images/frame.png").resize((550,400)))
+    canvas.create_image(275, 200, image = backgroundImage)
+    canvas.create_text(272, 30, text="Paramètres", font=("Times New Roman", 35, "bold"), fill = '#000000')
+    canvas.create_text(100, 80, text="Image de mort", font=("Times New Roman", 15, "bold"), fill = '#000000')
+    vals = ['0', '1']
+    etiqs = ['Soft', 'Hard']
+    varGr = StringVar()
+    with open("files/config.txt", "r") as fichier:
+        info = fichier.read().split("\n")
+        mort = int(info[1].split(" : ")[1])
+    varGr.set(vals[mort])
+    for i in range(2):
+        b = Radiobutton(Param, activebackground = "#ffe6f4", bg = "#ffe6f4",variable=varGr, text=etiqs[i], value=vals[i])
+        canvas.create_window(65+i*70, 110, window = b)
+    iExit = ImageTk.PhotoImage(Image.open("files/images/buttonQ.png"))
+    bExit = Button(Param, command = lambda: PExit(Param,[varGr]), relief = FLAT, image = iExit)
+    canvas.create_window(275, 370, window=bExit)
+    
+    canvas.pack()
+
+    Param.mainloop()
+
+def PExit(fenetre, valeurs):
+    fenetre.destroy()
+    mort = valeurs[0].get()
+    with open("files/config.txt", "w") as fichier:
+        texte = "1.0\n"
+        texte += "Image de Mort : "+mort
+        fichier.write(texte)
+    Main()
+
 def Main():
     FENETRE = Tk()
     FENETRE.title("DDLC's Friends")
@@ -68,7 +109,7 @@ def Main():
     bJouer = Button(FENETRE, command = lambda: SelectFen(FENETRE), relief = FLAT, image = iJouer)
     canvas.create_window(200, 130, window=bJouer)
     iConfig = ImageTk.PhotoImage(Image.open("files/images/buttonP.png"))
-    bConfig = Button(FENETRE, command = FENETRE.destroy, relief = FLAT, image = iConfig)
+    bConfig = Button(FENETRE, command = lambda: Parametres(FENETRE), relief = FLAT, image = iConfig)
     canvas.create_window(200, 200, window=bConfig)
     iExit = ImageTk.PhotoImage(Image.open("files/images/buttonQ.png"))
     bExit = Button(FENETRE, command = FENETRE.destroy, relief = FLAT, image = iExit)
@@ -86,4 +127,12 @@ def Main():
 
 if os.path.isdir('files/saves') == False:
     os.mkdir("files/saves")
+try:
+    with open("files/config.txt", "r"):
+        pass
+except:
+    with open("files/config.txt", "w") as fichier:
+        texte = "1.0\n"
+        texte += "Image de Mort : 0"
+        fichier.write(texte)
 Main()
