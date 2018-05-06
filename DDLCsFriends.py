@@ -1,5 +1,6 @@
 from tkinter import Tk, Canvas, Button, FLAT, CENTER, Radiobutton, StringVar
 from PIL import Image, ImageTk
+from tkinter.messagebox import showerror
 import os, sys
 try:
     from files.Game import Game
@@ -85,13 +86,16 @@ def Parametres(FENETRE):
     Param.mainloop()
 
 def PExit(fenetre, valeurs):
-    fenetre.destroy()
     mort = valeurs[0].get()
-    with open("files/config.txt", "w") as fichier:
-        texte = "1.0\n"
-        texte += "Image de Mort : "+mort
-        fichier.write(texte)
-    Main()
+    if mort == '1':
+        showerror("ERREUR", "Ce type de mort n'a pas encore été implémenté")
+    else:
+        fenetre.destroy()
+        with open("files/config.txt", "w") as fichier:
+            texte = "1.0\n"
+            texte += "Image de Mort : "+mort
+            fichier.write(texte)
+        Main()
 
 def Main():
     FENETRE = Tk()

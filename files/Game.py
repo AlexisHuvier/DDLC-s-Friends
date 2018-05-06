@@ -178,13 +178,15 @@ class Game():
                             tk.destroy()
 
     def showImageGame(self):
+        bg = pygame.image.load("files/images/background.png")
+        self.screen.blit(bg, (0, 0))
         self.girlGroup.draw(self.screen)
         content = pygame.image.load("files/images/barre_contenu.png")
         self.screen.blit(pygame.transform.scale(content, (self.girl.vie, 6)), (25, 21))
         self.screen.blit(pygame.transform.scale(content, (self.girl.fun, 6)), (25, 51))
         self.screen.blit(pygame.transform.scale(content, (self.girl.faim, 6)), (411+(65-self.girl.faim), 21))
         self.screen.blit(pygame.transform.scale(content, (self.girl.soif, 6)), (411+(65-self.girl.soif), 51))
-        text=self.fontName.render(self.girl.name,1,(250, 240, 230))
+        text=self.fontName.render(self.girl.name,1,(0, 0, 0))
         text_rect = text.get_rect(center=(500/2, 20))
         self.screen.blit(text, text_rect)
         frame = pygame.image.load("files/images/frame.png")
