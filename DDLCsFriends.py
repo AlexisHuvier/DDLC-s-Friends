@@ -8,6 +8,8 @@ except ImportError:
     sys.path.append("files")
     from Game import Game
 
+versionConfig = "2.0"
+
 def SelectGirl(CHOICE, event= ""):
     game = ""
     if event.x >= 39 and event.x <= 149:
@@ -87,13 +89,15 @@ def Parametres(FENETRE):
 
 def PExit(fenetre, valeurs):
     mort = valeurs[0].get()
+    debug = valeurs[1].get()
     if mort == '1':
         showerror("ERREUR", "Ce type de mort n'a pas encore été implémenté")
     else:
         fenetre.destroy()
         with open("files/config.txt", "w") as fichier:
-            texte = "1.0\n"
-            texte += "Image de Mort : "+mort
+            texte = versionConfig+"\n"
+            texte += "Image de Mort : "+mort+"\n"
+            texte += "Debug : "+debug
             fichier.write(texte)
         Main()
 
@@ -132,11 +136,13 @@ def Main():
 if os.path.isdir('files/saves') == False:
     os.mkdir("files/saves")
 try:
-    with open("files/config.txt", "r"):
-        pass
+    with open("files/config.txt", "r") as fichier:
+        if fichier.read().split("\n")[0] != versionConfig:
+            raise FileExistsError
 except:
     with open("files/config.txt", "w") as fichier:
-        texte = "1.0\n"
-        texte += "Image de Mort : 0"
+        texte = versionConfig+"\n"
+        texte += "Image de Mort : 0\n"
+        texte += "Debug : 0"
         fichier.write(texte)
 Main()

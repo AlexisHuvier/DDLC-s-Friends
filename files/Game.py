@@ -27,7 +27,12 @@ class Game():
         self.fen = "Game"
         self.girlGroup.add(self.girl)
         self.timeDirection = 20
-        self.debug = False
+        try:
+            with open("files/config.txt", "r") as fichier:
+                info = fichier.read().split("\n")
+                self.debug = int(info[2].split(" : ")[1])
+        except:
+            self.debug = False
         self.fontName=pygame.font.SysFont("Times New Roman",22,bold=True,italic=False)
         self.fontDesc=pygame.font.SysFont("Times New Roman",15,bold=False,italic=False)
         self.fontDesc2=pygame.font.SysFont("Times New Roman",12,bold=False,italic=False)
